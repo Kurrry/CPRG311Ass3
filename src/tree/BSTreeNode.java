@@ -1,6 +1,8 @@
 package tree;
 
-public class BSTreeNode<E> {
+import java.io.Serializable;
+
+public class BSTreeNode<E> implements Serializable {
     private E element;
     private BSTreeNode<E> left, right;
 

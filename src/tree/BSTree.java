@@ -2,7 +2,12 @@ package tree;
 
 import exceptions.TreeException;
 
-public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>{
+import java.io.Serializable;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.NoSuchElementException;
+
+public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializable {
 
     private BSTreeNode<E> root;
 
@@ -81,11 +86,66 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>{
 
     @Override
     public Iterator<E> preorderIterator() {
-        return null;
+        return new PreorderIterator();
     }
 
     @Override
     public Iterator<E> postorderIterator() {
-        return null;
+        return new PostorderIterator();
+    }
+
+    private class PreorderIterator implements Iterator<E> {
+
+        BSTreeNode<E> root = BSTree.this.root;
+        private final Deque<BSTreeNode<E>> stack;
+
+        public PreorderIterator() {
+            stack = new ArrayDeque<>();
+            if (root != null) stack.push(root);
+        }
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public E next() throws NoSuchElementException {
+            BSTreeNode<E> node = stack.pop();
+            if (node.hasRightChild()) stack.push(node.getRight());
+            if (node.hasLeftChild()) stack.push(node.getLeft());
+            return node.getElement();
+        }
+    }
+
+    private class PostorderIterator implements Iterator<E> {
+
+        BSTreeNode<E> root = BSTree.this.root;
+        private final Deque<BSTreeNode<E>> stack;
+
+        public PostorderIterator() {
+            stack = new ArrayDeque<>();
+            if (root != null) stack.push(root);
+        }
+
+        private void pushAll(BSTreeNode<E> root) {
+            while (root != null) {
+                stack.addFirst(root);
+                if (root.getLeft() != null) root = root.getLeft();
+                else if (root.getRight() != null) root = root.getRight();
+                else root = null;
+            }
+        }
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public E next() throws NoSuchElementException {
+            BSTreeNode<E> node = stack.pop();
+            assert stack.peek() != null;
+            //if (node == stack.peek().getLeft())
+            return node.getElement();
+        }
     }
 }
