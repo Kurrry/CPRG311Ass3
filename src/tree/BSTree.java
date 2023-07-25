@@ -4,29 +4,40 @@ import exceptions.TreeException;
 
 public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>{
 
+    private BSTreeNode<E> root;
+
+    public BSTree() {
+        this.root = null;
+    }
+
+    public BSTree(E root) {
+        this.root = new BSTreeNode<>(root);
+    }
+
     @Override
     public BSTreeNode<E> getRoot() throws TreeException {
-        return null;
+        if(this.root == null) throw new TreeException();
+        return root;
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return root.getHeight(root); // this looks silly but its more flexible
     }
 
     @Override
     public int size() {
-        return 0;
+        return root.countNodes(root); // more silliness
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size() == 0;
     }
 
     @Override
     public void clear() {
-
+        root = null;
     }
 
     @Override
@@ -41,7 +52,26 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>{
 
     @Override
     public boolean add(E newEntry) throws NullPointerException {
-        return false;
+        if (newEntry == null) throw new NullPointerException();
+        try {
+            if (this.contains(newEntry)) return false;
+        } catch (TreeException ex) {
+            ex.printStackTrace();
+        }
+        if (root == null) {
+            root = new BSTreeNode<>(newEntry);
+            return true;
+        }
+        root = add_recur(root, newEntry);
+        return true;
+    }
+
+    private BSTreeNode<E> add_recur(BSTreeNode<E> root, E newEntry) {
+        if (root == null) return new BSTreeNode<>(newEntry);
+
+        if (newEntry.compareTo(root.getElement()) < 0) root.setLeft(add_recur(root.getLeft(), newEntry));
+        else if (newEntry.compareTo(root.getElement()) > 0) root.setRight(add_recur(root.getRight(), newEntry));
+        return root;
     }
 
     @Override

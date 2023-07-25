@@ -1,4 +1,5 @@
 package exceptions;
 
-public class TreeException extends Exception{
+public class TreeException extends Exception {
+
 }
