@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializable {
 
@@ -67,7 +68,7 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
             root = new BSTreeNode<>(newEntry);
             return true;
         }
-        root = add_recur(root, newEntry);
+        add_recur(root, newEntry);
         return true;
     }
 
@@ -120,6 +121,7 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
     private class PostorderIterator implements Iterator<E> {
 
         BSTreeNode<E> root = BSTree.this.root;
+        BSTreeNode<E> returnNode;
         private final Deque<BSTreeNode<E>> stack;
 
         public PostorderIterator() {
@@ -142,10 +144,17 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
 
         @Override
         public E next() throws NoSuchElementException {
-            BSTreeNode<E> node = stack.pop();
-            assert stack.peek() != null;
-            //if (node == stack.peek().getLeft())
-            return node.getElement();
+            BSTreeNode<E> node = stack.peekFirst();
+            assert node != null;
+            if (returnNode == node.getRight()) {
+                returnNode = node;
+                return Objects.requireNonNull(stack.pollFirst()).getElement();
+            } else {
+                pushAll(node.getRight());
+                returnNode = stack.pollFirst();
+                assert returnNode != null;
+                return returnNode.getElement();
+            }
         }
     }
 }
