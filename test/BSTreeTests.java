@@ -90,6 +90,31 @@ public class BSTreeTests {
         assertEquals(1, bstOne.postorderIterator().next());
     }
 
-    /*@Test
-    void te*/
+    @Test
+    void testNextInorder() {
+        assertEquals(1, bstOne.inorderIterator().next());
+    }
+
+    @Test
+    void testGetHeight() {
+        assertEquals(3, bstOne.getHeight());
+    }
+
+    @Test
+    void testEmpty() {
+        bstThree = new BSTree<>();
+        assertTrue(bstThree.isEmpty());
+    }
+
+    @Test
+    void testContains() throws TreeException {
+        assertTrue(bstOne.contains(1));
+    }
+
+    @Test
+    void testSearch() throws TreeException {
+        assertEquals(4, bstOne.search(4).getElement());
+    }
+
+
 }
