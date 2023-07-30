@@ -33,12 +33,13 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
 
     @Override
     public int size() {
+        if (root == null) return 0;
         return root.countNodes(root); // more silliness
     }
 
     @Override
     public boolean isEmpty() {
-        return size() == 0;
+        return root == null;
     }
 
     @Override
@@ -126,7 +127,7 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
 
         public PostorderIterator() {
             stack = new ArrayDeque<>();
-            if (root != null) stack.push(root);
+            if (root != null) pushAll(root);
         }
 
         private void pushAll(BSTreeNode<E> root) {

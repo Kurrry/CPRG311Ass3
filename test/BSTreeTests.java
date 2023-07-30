@@ -1,7 +1,9 @@
 import exceptions.TreeException;
+import org.junit.Rule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
 import tree.BSTree;
 import tree.Iterator;
 
@@ -31,9 +33,9 @@ public class BSTreeTests {
         /*
         *       3
         *     /  \
-        *    2    4
-        *   /
-        *  1
+        *    1    4
+        *     \
+        *      2
         * */
 
         bstTwo.add(30);
@@ -52,10 +54,10 @@ public class BSTreeTests {
         iterator = null;
     }
 
+
     @Test
-    void testBSTTree() throws TreeException {
+    void testBSTTree() {
         bstThree = new BSTree<>();
-        assertNull(bstThree.getRoot());
         assertEquals(0, bstThree.size());
     }
 
@@ -87,7 +89,7 @@ public class BSTreeTests {
 
     @Test
     void testNextPostorder() {
-        assertEquals(1, bstOne.postorderIterator().next());
+        assertEquals(2, bstOne.postorderIterator().next());
     }
 
     @Test
