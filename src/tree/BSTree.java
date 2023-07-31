@@ -49,12 +49,22 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
 
     @Override
     public boolean contains(E entry) throws TreeException {
-        return false;
+        return this.search(entry) != null;
     }
 
     @Override
     public BSTreeNode<E> search(E entry) throws TreeException {
-        return null;
+        if (root == null) throw new TreeException();
+        if (root.getElement().equals(entry)) return root;
+
+        return searchRecur(root, entry);
+
+    }
+
+    private BSTreeNode<E> searchRecur(BSTreeNode<E> node, E entry) {
+        if(node == null || node.getElement().equals(entry)) return node;
+        if(node.getElement().compareTo(entry) < 0) return searchRecur(node.getRight(), entry);
+        return searchRecur(node.getLeft(), entry);
     }
 
     @Override
