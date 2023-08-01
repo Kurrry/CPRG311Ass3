@@ -17,8 +17,6 @@ public class BSTreeTests {
     String element;
 
     Iterator<Integer> iterator;
-    String testString = "String 0 String 1 String 2 String 3";
-    String testString2 = "String 1 String 2 String 3";
 
     @BeforeEach
     void setUp() throws Exception {
@@ -84,17 +82,23 @@ public class BSTreeTests {
 
     @Test
     void testNextPreorder() {
-        assertEquals(3, bstOne.preorderIterator().next());
+        iterator = bstOne.preorderIterator();
+        assertEquals(3, iterator.next());
+        assertEquals(1, iterator.next());
     }
 
     @Test
     void testNextPostorder() {
-        assertEquals(2, bstOne.postorderIterator().next());
+        iterator = bstOne.postorderIterator();
+        assertEquals(2, iterator.next());
+        assertEquals(1, iterator.next());
     }
 
     @Test
     void testNextInorder() {
-        assertEquals(1, bstOne.inorderIterator().next());
+        iterator = bstOne.inorderIterator();
+        assertEquals(1, iterator.next());
+        assertEquals(2, iterator.next());
     }
 
     @Test
