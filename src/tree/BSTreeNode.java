@@ -1,10 +1,13 @@
 package tree;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class BSTreeNode<E> implements Serializable {
     private E element;
     private BSTreeNode<E> left, right;
+    @Serial
+    private static final long serialVersionUID = 123456L;
 
     public BSTreeNode(E element) {
         this.element = element;

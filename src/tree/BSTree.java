@@ -2,6 +2,7 @@ package tree;
 
 import exceptions.TreeException;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -11,6 +12,8 @@ import java.util.Objects;
 public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializable {
 
     private BSTreeNode<E> root;
+    @Serial
+    private static final long serialVersionUID = 12345L;
 
     public BSTree() {
         this.root = null;
@@ -70,11 +73,11 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
     @Override
     public boolean add(E newEntry) throws NullPointerException {
         if (newEntry == null) throw new NullPointerException();
-        try {
+        /*try {
             if (this.contains(newEntry)) return false;
         } catch (TreeException ex) {
             ex.printStackTrace();
-        }
+        }*/
         if (root == null) {
             root = new BSTreeNode<>(newEntry);
             return true;
