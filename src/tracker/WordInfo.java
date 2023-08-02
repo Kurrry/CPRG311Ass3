@@ -1,6 +1,8 @@
 package tracker;
 
-public class WordInfo implements Comparable<WordInfo> {
+import java.io.Serializable;
+
+public class WordInfo implements Comparable<WordInfo>, Serializable {
 
     private String word;
     private int lineNumber;

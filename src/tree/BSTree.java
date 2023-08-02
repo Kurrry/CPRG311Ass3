@@ -96,7 +96,7 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
 
     @Override
     public Iterator<E> inorderIterator() {
-        return null;
+        return new InorderIterator();
     }
 
     @Override
@@ -169,6 +169,40 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
                 assert returnNode != null;
                 return returnNode.getElement();
             }
+        }
+    }
+
+    private class InorderIterator implements Iterator<E> {
+
+        BSTreeNode<E> root = BSTree.this.root;
+        private final Deque<BSTreeNode<E>> stack;
+
+        public InorderIterator() {
+            stack = new ArrayDeque<>();
+            if (root != null) traverseLeft(root);
+        }
+
+        private void traverseLeft(BSTreeNode<E> node) {
+            while (node != null) {
+                stack.push(node);
+                node = node.getLeft();
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public E next() throws NoSuchElementException {
+            BSTreeNode<E> node = stack.pop();
+
+            if (node.hasRightChild()) {
+                traverseLeft(node.getRight());
+            }
+
+            return node.getElement();
         }
     }
 }

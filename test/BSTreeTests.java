@@ -1,9 +1,7 @@
 import exceptions.TreeException;
-import org.junit.Rule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
 import tree.BSTree;
 import tree.Iterator;
 
