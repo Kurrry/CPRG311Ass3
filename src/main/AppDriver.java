@@ -1,5 +1,6 @@
 package main;
 
+import exceptions.TreeException;
 import tracker.WordTracker;
 
 public class AppDriver {

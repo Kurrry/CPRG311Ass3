@@ -1,5 +1,6 @@
 package tracker;
 
+import exceptions.TreeException;
 import tree.BSTree;
 import tree.BSTreeNode;
 import tree.Iterator;
@@ -17,7 +18,7 @@ public class WordTracker {
         File f = new File("src/res/repository.ser");
         if(f.isFile()) deserializeBSTFromFile();
         parseFileToTree(args[0]);
-        serializeBSTToFile();
+
 
         for (String s : args) {
             switch (s) {
@@ -34,6 +35,8 @@ public class WordTracker {
                     break;
             }
         }
+
+        serializeBSTToFile();
     }
 
     private void parseFileToTree(String fileName) {

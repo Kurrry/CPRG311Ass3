@@ -73,11 +73,7 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
     @Override
     public boolean add(E newEntry) throws NullPointerException {
         if (newEntry == null) throw new NullPointerException();
-        /*try {
-            if (this.contains(newEntry)) return false;
-        } catch (TreeException ex) {
-            ex.printStackTrace();
-        }*/
+
         if (root == null) {
             root = new BSTreeNode<>(newEntry);
             return true;
@@ -88,6 +84,10 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
 
     private BSTreeNode<E> add_recur(BSTreeNode<E> root, E newEntry) {
         if (root == null) return new BSTreeNode<>(newEntry);
+        if (root.getElement().compareTo(newEntry) == 0) {
+            root.incrementCount();
+            return root;
+        }
 
         if (newEntry.compareTo(root.getElement()) < 0) root.setLeft(add_recur(root.getLeft(), newEntry));
         else if (newEntry.compareTo(root.getElement()) > 0) root.setRight(add_recur(root.getRight(), newEntry));

@@ -8,6 +8,7 @@ public class BSTreeNode<E> implements Serializable {
     private BSTreeNode<E> left, right;
     @Serial
     private static final long serialVersionUID = 123456L;
+    private int count = 1;
 
     public BSTreeNode(E element) {
         this.element = element;
@@ -20,6 +21,13 @@ public class BSTreeNode<E> implements Serializable {
         this.right = right;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void incrementCount() {
+        this.count++;
+    }
     public E getElement() {
         return element;
     }
