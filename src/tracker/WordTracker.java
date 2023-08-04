@@ -10,8 +10,6 @@ import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class WordTracker {
-
-    private String outputFileName; // optional
     private BSTree<WordInfo> tree;
     public WordTracker(String[] args) {
         tree = new BSTree<>();
@@ -23,15 +21,15 @@ public class WordTracker {
         for (String s : args) {
             switch (s) {
                 case "-pf":
-                    printWordFile(); //TODO
+                    printWordFile();
                     break;
 
                 case "-pl":
-                    printWordFileLine(); //TODO
+                    printWordFileLine();
                     break;
 
                 case "-po":
-                    printWordFileLineFreq(); //TODO
+                    printWordFileLineFreq();
                     break;
             }
         }
@@ -44,7 +42,6 @@ public class WordTracker {
             String line;
             while ((line = reader.readLine()) != null) {
                 StringTokenizer st = new StringTokenizer(line, " ");
-                //int size = st.countTokens();
 
                 while (st.hasMoreTokens()) {
                     String word = st.nextToken();
@@ -56,16 +53,42 @@ public class WordTracker {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        // maybe done
     }
 
     private void printWordFileLineFreq() {
-        //TODO
+        Iterator<WordInfo> iterator = tree.inorderIterator();
+        WordInfo currentWord;
+
+        System.out.printf("--------------------------------------------------------------%n");
+        System.out.printf("     %-8s | %-13s  | %-13s  | %-13s%n", "WORD", "FILENAME", "LINE NUMBER", "FREQUENCY");
+        System.out.printf("--------------------------------------------------------------%n");
+
+        while (iterator.hasNext()) {
+            currentWord = iterator.next();
+
+            try {
+                System.out.printf("%-14s| %-14s | %-14d | %-14d%n", currentWord.getWord(), currentWord.getFileName().split("/", 3)[2],
+                        currentWord.getLineNumber(), tree.search(currentWord).getCount());
+            } catch (TreeException tex) {
+                tex.printStackTrace();
+            }
+        }
     }
 
     private void printWordFileLine() {
-        //TODO
+        Iterator<WordInfo> iterator = tree.inorderIterator();
+        WordInfo currentWord;
+
+        System.out.printf("----------------------------------------------%n");
+        System.out.printf("     %-8s | %-13s  | %-13s%n", "WORD", "FILENAME", "LINE NUMBER");
+        System.out.printf("----------------------------------------------%n");
+
+        while (iterator.hasNext()) {
+            currentWord = iterator.next();
+
+            System.out.printf("%-14s| %-14s | %-14d%n", currentWord.getWord(), currentWord.getFileName().split("/", 3)[2],
+                    currentWord.getLineNumber());
+        }
     }
 
     private void printWordFile() {
@@ -73,7 +96,7 @@ public class WordTracker {
         WordInfo currentWord;
 
         System.out.printf("-----------------------------------%n");
-        System.out.printf("     %-8s | %13s%n", "WORD", "FILENAME");
+        System.out.printf("     %-8s | %-13s%n", "WORD", "FILENAME");
         System.out.printf("-----------------------------------%n");
 
         while (iterator.hasNext()) {
@@ -81,7 +104,6 @@ public class WordTracker {
 
             System.out.printf("%-14s| %-14s%n", currentWord.getWord(), currentWord.getFileName().split("/", 3)[2]);
         }
-
     }
 
     private void deserializeBSTFromFile() {
@@ -92,11 +114,7 @@ public class WordTracker {
             tree = (BSTree<WordInfo>) ois.readObject();
             ois.close();
         }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        catch (ClassNotFoundException e)
+        catch (IOException | ClassNotFoundException e)
         {
             e.printStackTrace();
         }
