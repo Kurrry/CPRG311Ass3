@@ -2,12 +2,10 @@ package tracker;
 
 import exceptions.TreeException;
 import tree.BSTree;
-import tree.BSTreeNode;
 import tree.Iterator;
 
 import java.io.*;
 import java.util.StringTokenizer;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class WordTracker {
     private BSTree<WordInfo> tree;
