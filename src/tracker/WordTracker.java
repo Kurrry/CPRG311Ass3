@@ -45,7 +45,12 @@ public class WordTracker {
                     String word = st.nextToken();
                     int lineNumber = reader.getLineNumber();
                     WordInfo info = new WordInfo(word, lineNumber, fileName);
-                    tree.add(info);
+                    if (tree.isEmpty()) tree.add(info);
+                    if (tree.contains(info)) {
+                        tree.search(info).getElement().addFileName(fileName);
+                    }
+                        tree.add(info);
+
                 }
             }
         } catch (Exception ex) {
@@ -65,7 +70,7 @@ public class WordTracker {
             currentWord = iterator.next();
 
             try {
-                System.out.printf("%-14s| %-14s | %-14d | %-14d%n", currentWord.getWord(), currentWord.getFileName().split("/", 3)[2],
+                System.out.printf("%-14s| %-14s | %-14d | %-14d%n", currentWord.getWord(), currentWord.getFileNames(),
                         currentWord.getLineNumber(), tree.search(currentWord).getCount());
             } catch (TreeException tex) {
                 tex.printStackTrace();
@@ -84,7 +89,7 @@ public class WordTracker {
         while (iterator.hasNext()) {
             currentWord = iterator.next();
 
-            System.out.printf("%-14s| %-14s | %-14d%n", currentWord.getWord(), currentWord.getFileName().split("/", 3)[2],
+            System.out.printf("%-14s| %-14s | %-14d%n", currentWord.getWord(), currentWord.getFileNames(),
                     currentWord.getLineNumber());
         }
     }
@@ -100,7 +105,7 @@ public class WordTracker {
         while (iterator.hasNext()) {
             currentWord = iterator.next();
 
-            System.out.printf("%-14s| %-14s%n", currentWord.getWord(), currentWord.getFileName().split("/", 3)[2]);
+            System.out.printf("%-14s| %-14s%n", currentWord.getWord(), currentWord.getFileNames());
         }
     }
 

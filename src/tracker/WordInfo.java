@@ -1,17 +1,18 @@
 package tracker;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class WordInfo implements Comparable<WordInfo>, Serializable {
 
-    private String word;
-    private int lineNumber;
-    private String fileName;
+    private final String word;
+    private final int lineNumber;
+    private final ArrayList<String> fileNames = new ArrayList<>();
 
     public WordInfo(String word, int lineNumber, String fileName) {
         this.word = word;
         this.lineNumber = lineNumber;
-        this.fileName = fileName;
+        addFileName(fileName);
     }
 
     public String getWord() {
@@ -22,8 +23,12 @@ public class WordInfo implements Comparable<WordInfo>, Serializable {
         return lineNumber;
     }
 
-    public String getFileName() {
-        return fileName;
+    public ArrayList<String> getFileNames() {
+        return fileNames;
+    }
+
+    public void addFileName(String fileName) {
+        if(!(fileNames.contains(fileName.split("/", 3)[2]))) fileNames.add(fileName.split("/", 3)[2]);
     }
 
     @Override

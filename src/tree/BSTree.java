@@ -65,7 +65,7 @@ public class BSTree<E extends Comparable<E>> implements BSTreeADT<E>, Serializab
     }
 
     private BSTreeNode<E> searchRecur(BSTreeNode<E> node, E entry) {
-        if(node == null || node.getElement().equals(entry)) return node;
+        if(node == null || node.getElement().compareTo(entry) == 0) return node;
         if(node.getElement().compareTo(entry) < 0) return searchRecur(node.getRight(), entry);
         return searchRecur(node.getLeft(), entry);
     }

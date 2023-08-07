@@ -8,6 +8,6 @@ public class AppDriver {
         String[] test = new String[2];
         test[0] = "src/res/test2.txt"; // change number for testing
         test[1] = "-po";
-        new WordTracker(args); // change param to test if not using cli args
+        new WordTracker(test); // change param to test if not using cli args
     }
 }
