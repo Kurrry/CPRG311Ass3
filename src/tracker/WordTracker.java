@@ -7,14 +7,41 @@ import tree.Iterator;
 import java.io.*;
 import java.util.StringTokenizer;
 
+/**
+ * @author Group 9 <br>
+ *
+ * A utility class for tracking word occurrences in files and providing various printing options.
+ */
 public class WordTracker {
     private BSTree<WordInfo> tree;
+
+    /**
+     * Constructs a WordTracker object with the specified command-line arguments. Choices of output options are as follows: <br>
+     *
+     * "-pf" to print words with their filenames <br>
+     * "-pl" to print words with their filenames and line numbers <br>
+     * "-po" to print words with their filenames, line numbers, and frequencies of occurrence <br>
+     *
+     * optional: "-f output.txt" to print output to specified file instead of console
+     *
+     * @param args the command-line arguments, containing the path to the input file and choice of output options
+     */
     public WordTracker(String[] args) {
         tree = new BSTree<>();
         File f = new File("src/res/repository.ser");
         if(f.isFile()) deserializeBSTFromFile();
         parseFileToTree(args[0]);
 
+        if (args.length > 2 && args[2].equals("-f")) {
+            try {
+                //changes System.out to specified file rather than the console
+                PrintStream outputStream = new PrintStream(new FileOutputStream(args[3]));
+                System.setOut(outputStream);
+            }
+            catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         for (String s : args) {
             switch (s) {
@@ -35,6 +62,12 @@ public class WordTracker {
         serializeBSTToFile();
     }
 
+    /**
+     * Parses the content of a text file, extracts words, and populates the word occurrences
+     * in the Binary Search Tree (BST) of WordInfo objects.
+     *
+     * @param fileName the name of the input file to be parsed
+     */
     private void parseFileToTree(String fileName) {
         try (LineNumberReader reader = new LineNumberReader(new FileReader(fileName))) {
             String line;
@@ -49,8 +82,7 @@ public class WordTracker {
                     if (tree.contains(info)) {
                         tree.search(info).getElement().addFileName(fileName);
                     }
-                        tree.add(info);
-
+                    if (tree.getRoot().getElement() != info) tree.add(info);
                 }
             }
         } catch (Exception ex) {
@@ -58,6 +90,9 @@ public class WordTracker {
         }
     }
 
+    /**
+     * Prints the tracked words along with their corresponding filenames, line numbers, and frequencies of occurrence.
+     */
     private void printWordFileLineFreq() {
         Iterator<WordInfo> iterator = tree.inorderIterator();
         WordInfo currentWord;
@@ -78,6 +113,9 @@ public class WordTracker {
         }
     }
 
+    /**
+     * Prints the tracked words along with their corresponding filenames and line numbers.
+     */
     private void printWordFileLine() {
         Iterator<WordInfo> iterator = tree.inorderIterator();
         WordInfo currentWord;
@@ -94,6 +132,9 @@ public class WordTracker {
         }
     }
 
+    /**
+     * Prints the tracked words along with their corresponding filenames.
+     */
     private void printWordFile() {
         Iterator<WordInfo> iterator = tree.inorderIterator();
         WordInfo currentWord;
@@ -109,6 +150,9 @@ public class WordTracker {
         }
     }
 
+    /**
+     * Deserializes the BST of WordInfo objects from a .ser file.
+     */
     private void deserializeBSTFromFile() {
         try
         {
@@ -123,6 +167,9 @@ public class WordTracker {
         }
     }
 
+    /**
+     * Serializes the BST of WordInfo objects to a .ser file.
+     */
     public void serializeBSTToFile() {
         try
         {
