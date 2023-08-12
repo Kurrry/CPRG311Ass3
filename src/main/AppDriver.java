@@ -26,11 +26,11 @@ public class AppDriver {
      * @param args the command-line arguments, containing the path to the input file and choice of output options
      */
     public static void main(String[] args) {
-        String[] test = new String[4];
+        /*String[] test = new String[4];
         test[0] = "src/res/test2.txt"; // change number for testing
         test[1] = "-po";
         test[2] = "-f";
-        test[3] = "src/res/output.txt";
-        new WordTracker(test); // change param to test if not using cli args
+        test[3] = "src/res/output.txt";*/
+        new WordTracker(args); // change param to test if not using cli args
     }
 }
